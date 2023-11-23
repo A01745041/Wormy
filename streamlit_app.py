@@ -1,11 +1,10 @@
-<<<<<<< HEAD
+
 # -*- coding: utf-8 -*-
 """
 Created on Thu Nov 23 16:44:10 2023
 
 @author: A0174
 """
-
 import random
 import re
 import streamlit as st
@@ -88,5 +87,3 @@ user_input = st.text_input("You:", "")
 if user_input:
     response = respond(user_input)
     st.text_area("Wormy:", response)
-
-
