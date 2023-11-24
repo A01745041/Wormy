@@ -95,18 +95,15 @@ st.title("Wormy Chatbot")
 # Obtener la memoria actual
 memory = st.session_state.get("memory", [])
 
+user_input = st.text_area("You:", key="user_input", height=100)
 
-# Entrada del usuario
-user_input = st.text_input("You:", key="user_input")
 if st.button("Send"):
     if user_input:
-        # Mostrar la entrada del usuario
-        st.write(f"User: {user_input}")
-        
         # Obtener la respuesta del chatbot
         response = respond(user_input, memory)
 
-        # Mostrar la respuesta del chatbot
+        # Mostrar la conversación actualizada
+        st.write(f"User: {user_input}")
         st.write(f"Wormy: {response}")
 
         # Actualizar la memoria en la sesión
