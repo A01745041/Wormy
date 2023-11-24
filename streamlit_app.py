@@ -1,10 +1,10 @@
-
 # -*- coding: utf-8 -*-
 """
-Created on Thu Nov 23 16:44:10 2023
+Created on Thu Nov 23 19:05:28 2023
 
 @author: A0174
 """
+
 import random
 import re
 import streamlit as st
@@ -27,14 +27,26 @@ patterns = [
     {"pattern": r"I feel (.*)", "responses": ["Why do you feel {0}?", "Can you explain why you are {0}?", "Why {0}?",]},
     {"pattern": r"My name is (.*)", "responses": ["Hi {0}, how can I help you today?", "Nice to meet you, {0}. What's on your mind?",]},
     {"pattern": r"What is your name", "responses": ["You can call me Wormy.", "I'm Wormy, your virtual assistant.",]},
+    {"pattern": r"quit: (bye|goodbye|quit)", "responses": ["Goodbye. Thank you for talking to me."]},
+    {"pattern": r"pre: (dont|can't|won't|recollect|dreamt|dreams|maybe|how|when|certainly|machine|computers|were|you're|i'm|same)", "responses": ["I see. Please go on."]},
+    {"pattern": r"post: (am|your|me|myself|yourself|i you|you I|my your|i'm you are)", "responses": ["Why do you say that {0}?", "I'm not sure I understand. Can you elaborate?"]},
+    {"pattern": r"synon: (belief|feel|think|believe|wish|family|mother|mom|father|dad|sister|brother|wife|children|child|desire|want|need|sad|unhappy|depressed|sick|happy|elated|glad|better|cannot|can't|everyone|everybody|nobody|noone|be|am|is|are|was)", "responses": ["Tell me more about {0}.", "How does {0} make you feel?", "Can you elaborate on {0}?"]},
+    {"pattern": r"key: xnone\n  decomp: *\n    reasmb: I'm not sure I understand you fully.\n    reasmb: Please go on.\n    reasmb: What does that suggest to you ?\n    reasmb: Do you feel strongly about discussing such things ?", "responses": ["I'm not sure I understand you fully.", "Please go on.", "What does that suggest to you?", "Do you feel strongly about discussing such things?"]},
+    {"pattern": r"key: sorry\n  decomp: *\n    reasmb: Please don't apologise.\n    reasmb: Apologies are not necessary.\n    reasmb: I've told you that apologies are not required.", "responses": ["Please don't apologize.", "Apologies are not necessary.", "I've told you that apologies are not required."]},
+    {"pattern": r"initial: (.*)", "responses": ["How do you do. Please tell me your problem."]},
+    {"pattern": r"final: (.*)", "responses": ["Goodbye. Thank you for talking to me."]},
+    {"pattern": r"quit: (bye|goodbye|quit)", "responses": ["Goodbye. Thank you for talking to me."]},
+    {"pattern": r"pre: (dont|can't|won't|recollect|dreamt|dreams|maybe|how|when|certainly|machine|computers|were|you're|i'm|same)", "responses": ["I see. Please go on."]},
+    {"pattern": r"pre: (.*?) (.*?)", "responses": ["Tell me more about the relationship between {0} and {1}.", "How are {0} and {1} connected?", "What comes to mind when you think of {0} and {1} together?"]},
+    {"pattern": r"post: (am|your|me|myself|yourself|i you|you I|my your|i'm you are)", "responses": ["Why do you say that {0}?", "I'm not sure I understand. Can you elaborate?"]},
+    {"pattern": r"synon: (.*?) (.*?)", "responses": ["Tell me more about the connection between {0} and {1}.", "How does {0} relate to {1}?", "Can you elaborate on the similarities between {0} and {1}?"]},
+    {"pattern": r"key: xnone\n  decomp: *\n    reasmb: I'm not sure I understand you fully.\n    reasmb: Please go on.\n    reasmb: What does that suggest to you ?\n    reasmb: Do you feel strongly about discussing such things ?", "responses": ["I'm not sure I understand you fully.", "Please go on.", "What does that suggest to you?", "Do you feel strongly about discussing such things?"]},
+    {"pattern": r"key: (.*?)\n  decomp: *\n    reasmb: (.*?)", "responses": ["Can you tell me more about {0}?", "What do you think about {0}?", "How does {0} make you feel?"]},
 ]
 
-memory = []
-
 # Función para responder al usuario
-def respond(user_input):
-    global memory  # Accede a la variable global memory
-
+@st.cache(allow_output_mutation=True)
+def respond(user_input, memory):
     # Verificar si el usuario mencionó su nombre y almacenarlo en la memoria
     user_name_match = re.match(r"My name is (.*)", user_input)
     if user_name_match:
@@ -78,16 +90,19 @@ st.markdown(
     unsafe_allow_html=True,
     )
 
+# Añadir imagen de logo
+logo_path = "C:/Users/A0174/OneDrive/Documentos/wormyicon.jpg"
+st.image(logo_path, use_column_width=True)
 
 st.title("Wormy Chatbot")
 
-while True:
-    user_input = st.text_input("You:", "")
-    if user_input.lower() == 'bye':
-        print("Wormy: Goodbye!")
-        break
-    else:
-        response = respond(user_input)
-        st.text_area("Wormy:", response)
+# Obtener la memoria actual
+memory = st.session_state.get("memory", [])
 
+user_input = st.text_input("You:", "")
+if user_input:
+    response = respond(user_input, memory)
+    st.text_area("Wormy:", response)
 
+# Actualizar la memoria en la sesión
+st.session_state.memory = memory
