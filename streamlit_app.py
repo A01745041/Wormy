@@ -78,21 +78,17 @@ st.set_page_config(
     )
 
 # Añadir fondo de color
-st.markdown(
-    """
-    <style>
-        body {
-            background-color: #3498db !important;
-            color: white;
-        }
-    </style>
-    """,
-    unsafe_allow_html=True,
-    )
-
-# Añadir imagen de logo
-logo_path = "C:/Users/A0174/OneDrive/Documentos/wormyicon.jpg"
-st.image(logo_path, use_column_width=True)
+st.markdown("""
+        <h1 style='color: #2DCCCD; background-color: #043263'>
+            Wormy 
+        </h1>
+        <h6 style='color: #2DCCCD; background-color: #043263'>
+            Versión: Alpha-0.1
+        </h6>
+        <p id='rcorners', style='color: #FFFFFF; background-color: #043263'>
+            Chat with Wormy.
+        </p>""",
+    unsafe_allow_html=True)
 
 st.title("Wormy Chatbot")
 
