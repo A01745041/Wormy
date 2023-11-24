@@ -78,13 +78,16 @@ st.markdown(
     unsafe_allow_html=True,
     )
 
-# Añadir imagen de logo
-logo_path = "C:/Users/A0174/OneDrive/Documentos/wormyicon.jpg"
-st.image(logo_path, use_column_width=True)
 
 st.title("Wormy Chatbot")
 
-user_input = st.text_input("You:", "")
-if user_input:
-    response = respond(user_input)
-    st.text_area("Wormy:", response)
+while True:
+    user_input = st.text_input("You:", "")
+    if user_input.lower() == 'bye':
+        print("Wormy: Goodbye!")
+        break
+    else:
+        response = respond(user_input)
+        st.text_area("Wormy:", response)
+
+
