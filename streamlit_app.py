@@ -79,8 +79,6 @@ st.markdown(
     )
 
 # Añadir imagen de logo
-logo_path = "https://1drv.ms/i/s!AmTCJ_hObeTdg9RlLKVGsMRFK0SzFg?e=Xhxe7y"
-st.image(logo_path, use_column_width=True)
 
 st.title("Wormy Chatbot")
 
