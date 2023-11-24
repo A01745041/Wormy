@@ -70,8 +70,8 @@ st.markdown(
     """
     <style>
         body {
-            background-color: #3498db;
-            color: blue;
+            background-color: #3498db !important;
+            color: white;
         }
     </style>
     """,
@@ -79,6 +79,8 @@ st.markdown(
     )
 
 # Añadir imagen de logo
+logo_path = "C:/Users/A0174/OneDrive/Documentos/wormyicon.jpg"
+st.image(logo_path, use_column_width=True)
 
 st.title("Wormy Chatbot")
 
@@ -86,4 +88,3 @@ user_input = st.text_input("You:", "")
 if user_input:
     response = respond(user_input)
     st.text_area("Wormy:", response)
-
